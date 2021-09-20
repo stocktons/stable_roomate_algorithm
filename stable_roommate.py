@@ -12,111 +12,20 @@
 import copy
 import random
 
-# Examples:
-rithm_input = {
-    "preferences": {
-        "Loni": ["Mike", "Zach", "Nathan", "Sarah", "Alex"],
-        "Sarah": ["Loni", "Alex", "Nathan", "Zach", "Mike"],
-        "Mike": ["Loni", "Nathan", "Alex", "Zach", "Sarah"],
-        "Alex": ["Loni", "Sarah", "Mike", "Nathan", "Zach"],
-        "Zach": ["Nathan", "Sarah", "Mike", "Loni", "Alex"],
-        "Nathan": ["Alex", "Zach", "Mike", "Sarah", "Loni"]
-    }
-}
-odd_rithm_input = {
-    "preferences": {
-        "Loni": ["Mike", "solo", "Zach", "Nathan", "Sarah", "Alex", "Ray"],
-        "Sarah": ["Loni", "Alex", "Nathan", "Ray", "solo", "Zach", "Mike"],
-        "Mike": ["solo", "Ray", "Loni", "Nathan", "Alex", "Zach", "Sarah"],
-        "Alex": ["Loni", "Sarah", "Ray", "Mike", "Nathan", "Zach", "solo"],
-        "Zach": ["Nathan", "Sarah", "Mike", "Ray", "Loni", "solo", "Alex"],
-        "Nathan": ["Alex", "Ray", "solo", "Zach", "Mike", "Sarah", "Loni"],
-        "Ray" : ["Nathan", "Sarah", "Mike", "Loni", "Alex", "Zach", "solo"],
-    }
-}
-
-stable_input = {
-    "preferences": {
-        "Charlie": ["Peter", "Paul", "Sam", "Kelly", "Elise"],
-        "Peter": ["Kelly", "Elise", "Sam", "Paul", "Charlie"],
-        "Elise": ["Peter", "Sam", "Kelly", "Charlie", "Paul"],
-        "Paul": ["Elise", "Charlie", "Sam", "Peter", "Kelly"],
-        "Kelly": ["Peter", "Charlie", "Sam", "Elise", "Paul"],
-        "Sam": ["Charlie", "Paul", "Kelly", "Elise", "Peter"]
-    }
-}
-
-stable_input2 = {
-    "preferences": {
-        "A": ["B", "D", "F", "C", "E"],
-        "B": ["D", "E", "F", "A", "C"],
-        "C": ["D", "E", "F", "A", "B"],
-        "D": ["F", "C", "A", "E", "B"],
-        "E": ["F", "C", "D", "B", "A"],
-        "F": ["A", "B", "D", "C", "E"]
-    }
-}
-
-unstable_input = {
-    "preferences": {
-        "Charlie": ["Peter", "Paul", "Elise"],
-        "Peter": ["Paul", "Charlie", "Elise"],
-        "Elise": ["Peter", "Charlie", "Paul"],
-        "Paul": ["Charlie", "Peter", "Elise"]
-    }
-}
-
-unstable_input2 = {
-    "preferences": {
-        "A": ["B", "C", "M"],
-        "B": ["C", "A", "M"],
-        "C": ["A", "B", "M"],
-        "M": ["A", "B", "C"]
-    }
-}
-
-invalid_input = {
-    "preferences": {
-        "A": ["B", "D", "F", "C", "E"],
-        "B": ["D", "E", "F", "A", "C"],
-        "C": ["D", "E", "F", "A", "B"],
-        "D": ["F", "C", "A", "E", "B"],
-        "E": ["F", "C", "D", "B", "A"],
-        "A": ["A", "B", "D", "C", "E"]
-    }
-}
-
-invalid_input2 = {
-    "preferences": {
-        "A": ["B", "D", "F", "C", "E"],
-        "B": ["D", "E", "F", "A", "C"],
-        "C": ["D", "E", "F", "A", "B"],
-        "D": ["F", "C", "A", "E"],
-        "E": ["F", "C", "D", "B", "A"],
-        "F": ["A", "B", "D", "C", "E"]
-    }
-}
-
-invalid_input3 = {
-    "preferences": {
-        "A": ["B", "D", "F", "C"],
-        "B": ["D", "E", "F", "A"],
-        "C": ["D", "E", "F", "A"],
-        "D": ["F", "C", "A", "E"],
-        "E": ["F", "C", "D", "B"],
-        "F": ["A", "B", "D", "C"]
-    }
-}
-
-
-
 
 def apply(input):
     student_choices = input["preferences"]
+    
+    # if there are an odd number of students in the cohort, 
+    # add "solo" as an option
     if len(student_choices) % 2 == 1:
-        student_choices.update({"solo": random.sample(student_choices.keys(), len(student_choices))})
-        breakpoint()
-    # run the algorithm on the input
+        student_choices.update(
+            {
+                "solo": random.sample(student_choices.keys(), len(student_choices))
+            }
+        )
+
+    # run the algorithm on input with updated student_choices
     verified_input = checkInput({"preferences": student_choices})
 
     params = step1(verified_input)
@@ -129,11 +38,7 @@ def apply(input):
 
 
 class AlgorithmError(Exception):
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return repr(self.value)
+    """Throws an error when Algorithm cannot be successfully completed."""
 
 
 def checkInput(input):
@@ -184,7 +89,7 @@ def removeCycle(preferences, table):
 
 def cycleExists(table):
     tableLeft = table[0]
-    tableRight = table[1]
+    # tableRight = table[1]
 
     # check if all elements in column are unique
     if len(tableLeft) > len(set(tableLeft)):
@@ -321,3 +226,100 @@ def parseOutput(preferences):
         rVal[i] = preferences[i][0]
 
     return rVal
+
+
+# Examples:
+rithm_input = {
+    "preferences": {
+        "Loni": ["Mike", "Zach", "Nathan", "Sarah", "Alex"],
+        "Sarah": ["Loni", "Alex", "Nathan", "Zach", "Mike"],
+        "Mike": ["Loni", "Nathan", "Alex", "Zach", "Sarah"],
+        "Alex": ["Loni", "Sarah", "Mike", "Nathan", "Zach"],
+        "Zach": ["Nathan", "Sarah", "Mike", "Loni", "Alex"],
+        "Nathan": ["Alex", "Zach", "Mike", "Sarah", "Loni"]
+    }
+}
+odd_rithm_input = {
+    "preferences": {
+        "Loni": ["Mike", "solo", "Zach", "Nathan", "Sarah", "Alex", "Ray"],
+        "Sarah": ["Loni", "Alex", "Nathan", "Ray", "solo", "Zach", "Mike"],
+        "Mike": ["solo", "Ray", "Loni", "Nathan", "Alex", "Zach", "Sarah"],
+        "Alex": ["Loni", "Sarah", "Ray", "Mike", "Nathan", "Zach", "solo"],
+        "Zach": ["Nathan", "Sarah", "Mike", "Ray", "Loni", "solo", "Alex"],
+        "Nathan": ["Alex", "Ray", "solo", "Zach", "Mike", "Sarah", "Loni"],
+        "Ray" : ["Nathan", "Sarah", "Mike", "Loni", "Alex", "Zach", "solo"],
+    }
+}
+
+stable_input = {
+    "preferences": {
+        "Charlie": ["Peter", "Paul", "Sam", "Kelly", "Elise"],
+        "Peter": ["Kelly", "Elise", "Sam", "Paul", "Charlie"],
+        "Elise": ["Peter", "Sam", "Kelly", "Charlie", "Paul"],
+        "Paul": ["Elise", "Charlie", "Sam", "Peter", "Kelly"],
+        "Kelly": ["Peter", "Charlie", "Sam", "Elise", "Paul"],
+        "Sam": ["Charlie", "Paul", "Kelly", "Elise", "Peter"]
+    }
+}
+
+stable_input2 = {
+    "preferences": {
+        "A": ["B", "D", "F", "C", "E"],
+        "B": ["D", "E", "F", "A", "C"],
+        "C": ["D", "E", "F", "A", "B"],
+        "D": ["F", "C", "A", "E", "B"],
+        "E": ["F", "C", "D", "B", "A"],
+        "F": ["A", "B", "D", "C", "E"]
+    }
+}
+
+unstable_input = {
+    "preferences": {
+        "Charlie": ["Peter", "Paul", "Elise"],
+        "Peter": ["Paul", "Charlie", "Elise"],
+        "Elise": ["Peter", "Charlie", "Paul"],
+        "Paul": ["Charlie", "Peter", "Elise"]
+    }
+}
+
+unstable_input2 = {
+    "preferences": {
+        "A": ["B", "C", "M"],
+        "B": ["C", "A", "M"],
+        "C": ["A", "B", "M"],
+        "M": ["A", "B", "C"]
+    }
+}
+
+invalid_input = {
+    "preferences": {
+        "A": ["B", "D", "F", "C", "E"],
+        "B": ["D", "E", "F", "A", "C"],
+        "C": ["D", "E", "F", "A", "B"],
+        "D": ["F", "C", "A", "E", "B"],
+        "E": ["F", "C", "D", "B", "A"],
+        "A": ["A", "B", "D", "C", "E"]
+    }
+}
+
+invalid_input2 = {
+    "preferences": {
+        "A": ["B", "D", "F", "C", "E"],
+        "B": ["D", "E", "F", "A", "C"],
+        "C": ["D", "E", "F", "A", "B"],
+        "D": ["F", "C", "A", "E"],
+        "E": ["F", "C", "D", "B", "A"],
+        "F": ["A", "B", "D", "C", "E"]
+    }
+}
+
+invalid_input3 = {
+    "preferences": {
+        "A": ["B", "D", "F", "C"],
+        "B": ["D", "E", "F", "A"],
+        "C": ["D", "E", "F", "A"],
+        "D": ["F", "C", "A", "E"],
+        "E": ["F", "C", "D", "B"],
+        "F": ["A", "B", "D", "C"]
+    }
+}
